@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Major 1: Saturday 16 May 2026</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 20px;
+}
+
+h2 h1 {
+    text-align: center;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* PASSWORD BAR */
+.bar {
+    width: 100%;
+    height: 20px;
+    background: #ddd;
+    border-radius: 10px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    width: 0%;
+    transition: 0.3s;
+}
+
+/* EMAIL BOX */
+.email {
+    background: #fff3f3;
+    border-left: 5px solid red;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+/* BUTTONS */
+button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #007bff;
+    color: white;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+.score {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Major 1: Saturday 16 May 2026</h1>
+
+<h2>🔐 Cyber Security Awareness Simulation</h2>
+
+<!-- PASSWORD SECTION -->
+<div class="card">
+<h3>1. Password Strength Checker</h3>
+
+<input type="text" id="password" placeholder="Enter password" style="width:100%; padding:10px;">
+<button onclick="checkPassword()">Check Password</button>
+
+<div class="bar">
+    <div id="barFill" class="bar-fill"></div>
+</div>
+
+<p id="pwdText"></p>
+</div>
+
+<!-- PHISHING SECTION -->
+<div class="card">
+<h3>2. Phishing Email Training (6 Examples)</h3>
+
+<div class="email">
+<p id="from"></p>
+<p id="subject"></p>
+<p id="message"></p>
+</div>
+
+<button onclick="nextEmail()">Next Email Example</button>
+<button onclick="scanPhishing()">Scan Email</button>
+
+<p class="score" id="riskScore"></p>
+<ul id="warnings"></ul>
+
+</div>
+
+</div>
+
+<script>
+
+/* =========================
+   PASSWORD CHECKER
+========================= */
+function checkPassword() {
+    let pwd = document.getElementById("password").value;
+    let bar = document.getElementById("barFill");
+    let text = document.getElementById("pwdText");
+
+    let score = 0;
+
+    if (pwd.length >= 8) score += 25;
+    if (pwd.length >= 12) score += 25;
+    if (/[A-Z]/.test(pwd)) score += 20;
+    if (/[0-9]/.test(pwd)) score += 15;
+    if (/[^A-Za-z0-9]/.test(pwd)) score += 15;
+
+    bar.style.width = score + "%";
+
+    if (score < 40) {
+        bar.style.background = "red";
+        text.innerHTML = "Weak Password ❌ (Try: arman123)";
+    } 
+    else if (score < 70) {
+        bar.style.background = "orange";
+        text.innerHTML = "Medium Password ⚠️ (Try: Arman2026)";
+    } 
+    else {
+        bar.style.background = "green";
+        text.innerHTML = "Strong Password ✅ (Try: Blue!Tiger$92)";
+    }
+}
+
+/* =========================
+   PHISHING EMAILS (6 EXAMPLES)
+========================= */
+
+let emailIndex = 0;
+
+let emails = [
+{
+from: "bank-security@secure-login.ru",
+subject: "Urgent! Account suspended",
+message: "Click here immediately to verify your account: http://fakebank.ru/login"
+},
+{
+from: "paypal-support@paypa1-security.com",
+subject: "Suspicious login detected",
+message: "Verify your identity now or your account will be locked."
+},
+{
+from: "it-support@company.com",
+subject: "Password reset required",
+message: "Click link to reset password: http://reset-company-security.ru"
+},
+{
+from: "amazon-security@amaz0n-alert.com",
+subject: "Order payment failed",
+message: "Update payment details immediately to avoid suspension."
+},
+{
+from: "hr@your-company.com",
+subject: "Urgent: Payroll update needed",
+message: "Submit bank details via this secure form link."
+},
+{
+from: "microsoft-support@micr0soft-login.com",
+subject: "Unusual sign-in activity detected",
+message: "Confirm your account to avoid termination."
+}
+];
+
+function loadEmail() {
+document.getElementById("from").innerHTML = "<b>From:</b> " + emails[emailIndex].from;
+document.getElementById("subject").innerHTML = "<b>Subject:</b> " + emails[emailIndex].subject;
+document.getElementById("message").innerHTML = emails[emailIndex].message;
+}
+
+function nextEmail() {
+emailIndex++;
+if (emailIndex >= emails.length) {
+emailIndex = 0;
+}
+loadEmail();
+}
+
+/* =========================
+   PHISHING SCAN
+========================= */
+function scanPhishing() {
+let warnings = document.getElementById("warnings");
+let scoreText = document.getElementById("riskScore");
+
+warnings.innerHTML = "";
+
+let score = 0;
+
+let risks = [
+"Fake or slightly modified email domain",
+"Urgency used to pressure user",
+"Suspicious or shortened links",
+"Requests sensitive information",
+"Grammar or spelling mistakes",
+"Too-good-to-be-true offers or threats"
+];
+
+risks.forEach(r => {
+let li = document.createElement("li");
+li.innerHTML = "⚠️ " + r;
+warnings.appendChild(li);
+score += 16;
+});
+
+scoreText.innerHTML = "Phishing Risk Score: " + score + "/100";
+
+if (score >= 80) {
+scoreText.style.color = "red";
+} 
+else if (score >= 40) {
+scoreText.style.color = "orange";
+} 
+else {
+scoreText.style.color = "green";
+}
+}
+
+/* Load first email on startup */
+window.onload = loadEmail;
+
+</script>
+
+</body>
+</html>
