@@ -11,7 +11,7 @@ body {
     padding: 20px;
 }
 
-h2 h1 {
+h1, h2 {
     text-align: center;
 }
 
@@ -80,7 +80,6 @@ button:hover {
 <div class="container">
 
 <h1>Major 1: Saturday 16 May 2026</h1>
-
 <h2>🔐 Cyber Security Awareness Simulation</h2>
 
 <!-- PASSWORD SECTION -->
@@ -106,6 +105,8 @@ button:hover {
 <p id="subject"></p>
 <p id="message"></p>
 </div>
+
+<p id="progress"></p>
 
 <button onclick="nextEmail()">Next Email Example</button>
 <button onclick="scanPhishing()">Scan Email</button>
@@ -152,7 +153,7 @@ function checkPassword() {
 }
 
 /* =========================
-   PHISHING EMAILS (6 EXAMPLES)
+   PHISHING EMAILS (FIXED)
 ========================= */
 
 let emailIndex = 0;
@@ -191,16 +192,27 @@ message: "Confirm your account to avoid termination."
 ];
 
 function loadEmail() {
-document.getElementById("from").innerHTML = "<b>From:</b> " + emails[emailIndex].from;
-document.getElementById("subject").innerHTML = "<b>Subject:</b> " + emails[emailIndex].subject;
-document.getElementById("message").innerHTML = emails[emailIndex].message;
+document.getElementById("from").innerHTML =
+"<b>From:</b> " + emails[emailIndex].from;
+
+document.getElementById("subject").innerHTML =
+"<b>Subject:</b> " + emails[emailIndex].subject;
+
+document.getElementById("message").innerHTML =
+emails[emailIndex].message;
+
+document.getElementById("progress").innerHTML =
+"Email " + (emailIndex + 1) + " of " + emails.length;
 }
 
 function nextEmail() {
 emailIndex++;
+
 if (emailIndex >= emails.length) {
 emailIndex = 0;
+alert("✅ You have completed all 6 phishing examples!");
 }
+
 loadEmail();
 }
 
@@ -244,7 +256,7 @@ scoreText.style.color = "green";
 }
 }
 
-/* Load first email on startup */
+/* Load first email */
 window.onload = loadEmail;
 
 </script>
